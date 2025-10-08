@@ -1,0 +1,8 @@
+__pycache__/
+venv/
+.env
+models/
+*.wav
+.pytest_cache/
+.vscode/
+docs/
