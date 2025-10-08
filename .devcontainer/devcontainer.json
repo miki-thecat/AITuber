@@ -1,0 +1,21 @@
+{
+  "name": "aituber-dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-toolsai.jupyter"
+      ]
+    }
+  },
+  "remoteUser": "vscode",
+  "forwardPorts": [
+    5173,
+    8000
+  ],
+  "postCreateCommand": "pip install --no-cache-dir -r requirements.txt && bash ./scripts/download_models.sh || true"
+}
