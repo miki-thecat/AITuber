@@ -7,10 +7,6 @@ import uvicorn
 
 app = FastAPI()
 
-# 静的ファイルの配信
-static_dir = Path(__file__).parent / "static"
-app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
-
 class ConnectionManager:
     def __init__(self):
         self.active_connections: list[WebSocket] = []
@@ -60,6 +56,10 @@ async def startup_event():
     # テスト用のダミーストリームを開始
     asyncio.create_task(dummy_mouth_stream())
     print("Overlay server is ready.")
+
+# 静的ファイルの配信（WebSocketエンドポイントの後に配置）
+static_dir = Path(__file__).parent / "static"
+app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
 
 
 if __name__ == "__main__":
