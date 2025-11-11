@@ -1,12 +1,23 @@
-#!/usr/bin/env bash
+#!/bin/bash
 set -e
+
+echo "Downloading AI models..."
+
+# Create directories
 mkdir -p models/stt models/tts
 
-# Whisper small or base（サイズは環境で調整）
-# 実ファイルDLはここに記述（例：wget で CTranslate2 形式の small）
-echo "Place your faster-whisper CTranslate2 model into models/stt/"
-echo "Example: models/stt/whisper-small-ct2/"
+# Whisper model (placeholder - user needs to download manually)
+echo "To download Whisper model:"
+echo "  pip install huggingface-hub"
+echo "  huggingface-cli download Systran/faster-whisper-large-v3 --local-dir models/stt/faster-whisper-large-v3"
 
-# Piper 日本語音声（軽量）例：ja-JP-xxx.onnx
-echo "Place your piper voice into models/tts/"
-echo "Example: models/tts/ja-JP-xxx.onnx"
+# Piper model (placeholder)
+echo ""
+echo "To download Piper voice model:"
+echo "  Visit: https://github.com/rhasspy/piper/releases"
+echo "  Download a Japanese voice model (e.g., ja_JP-nanami-medium.onnx)"
+echo "  Place in: models/tts/"
+
+echo ""
+echo "Models directory structure created!"
+echo "Please manually download models as indicated above."
