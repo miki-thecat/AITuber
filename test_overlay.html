@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AITuber Test</title>
+    <style>
+        body { 
+            background: black; 
+            color: white; 
+            font-family: Arial;
+            padding: 50px;
+        }
+        #status { font-size: 24px; margin-bottom: 20px; }
+        #subtitle { 
+            background: rgba(0,0,0,0.8);
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 36px;
+            margin: 20px 0;
+        }
+        #mouth {
+            width: 100px;
+            height: 50px;
+            background: hotpink;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>AITuber Overlay Test</h1>
+    <div id="status">接続中...</div>
+    <div id="subtitle"></div>
+    <div id="mouth"></div>
+    <div id="log"></div>
+    
+    <script>
+        const statusEl = document.getElementById('status');
+        const subtitleEl = document.getElementById('subtitle');
+        const mouthEl = document.getElementById('mouth');
+        const logEl = document.getElementById('log');
+        
+        function log(msg) {
+            console.log(msg);
+            logEl.innerHTML += msg + '<br>';
+        }
+        
+        log('Starting...');
+        
+        const wsUrl = 'ws://' + location.hostname + ':5173/ws';
+        log('Connecting to: ' + wsUrl);
+        
+        const ws = new WebSocket(wsUrl);
+        
+        ws.onopen = () => {
+            log('✅ WebSocket connected!');
+            statusEl.textContent = '✅ 接続成功';
+            statusEl.style.color = 'lime';
+        };
+        
+        ws.onmessage = (event) => {
+            log('Message: ' + event.data);
+            try {
+                const data = JSON.parse(event.data);
+                if (data.type === 'utter_start') {
+                    subtitleEl.textContent = data.subtitle;
+                } else if (data.type === 'mouth') {
+                    mouthEl.style.transform = 'scaleY(' + data.value + ')';
+                }
+            } catch (e) {
+                log('Error: ' + e);
+            }
+        };
+        
+        ws.onerror = (error) => {
+            log('❌ WebSocket error');
+            statusEl.textContent = '❌ エラー';
+            statusEl.style.color = 'red';
+        };
+        
+        ws.onclose = () => {
+            log('🔌 WebSocket closed');
+            statusEl.textContent = '🔌 切断';
+            statusEl.style.color = 'orange';
+        };
+    </script>
+</body>
+</html>

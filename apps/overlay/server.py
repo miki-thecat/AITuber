@@ -1,6 +1,6 @@
-
 import asyncio
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 import uvicorn
@@ -16,11 +16,15 @@ class ConnectionManager:
         self.active_connections.append(websocket)
 
     def disconnect(self, websocket: WebSocket):
-        self.active_connections.remove(websocket)
+        if websocket in self.active_connections:
+            self.active_connections.remove(websocket)
 
     async def broadcast(self, message: str):
         for connection in self.active_connections:
-            await connection.send_text(message)
+            try:
+                await connection.send_text(message)
+            except Exception:
+                pass
 
 manager = ConnectionManager()
 
@@ -29,18 +33,14 @@ async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
-            # クライアントからのメッセージを待機（必要であれば）
             data = await websocket.receive_text()
-            # ここではブロードキャストはせず、接続を維持する
     except WebSocketDisconnect:
         manager.disconnect(websocket)
         print("Client disconnected")
 
-# テスト用に、定期的にメッセージをブロードキャストするサンプル
 async def dummy_mouth_stream():
     import json
     import math
-    import time
     while True:
         await asyncio.sleep(3)
         await manager.broadcast(json.dumps({"type": "utter_start", "text": "こんにちは！", "subtitle": "こんにちは！"}))
@@ -50,17 +50,28 @@ async def dummy_mouth_stream():
             await asyncio.sleep(0.03)
         await manager.broadcast(json.dumps({"type": "utter_end"}))
 
-
 @app.on_event("startup")
 async def startup_event():
-    # テスト用のダミーストリームを開始
     asyncio.create_task(dummy_mouth_stream())
     print("Overlay server is ready.")
 
-# 静的ファイルの配信（WebSocketエンドポイントの後に配置）
+# 静的ファイルの配信
 static_dir = Path(__file__).parent / "static"
-app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
 
+@app.get("/")
+async def read_index():
+    return FileResponse(static_dir / "index.html")
+
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+# CSSとJSファイルの直接配信
+@app.get("/styles.css")
+async def read_styles():
+    return FileResponse(static_dir / "styles.css")
+
+@app.get("/client.js")
+async def read_client():
+    return FileResponse(static_dir / "client.js")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=5173)

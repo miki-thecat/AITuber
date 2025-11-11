@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TEST</title>
+    <style>
+        body {
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff);
+            color: white;
+            font-size: 48px;
+            text-align: center;
+            padding: 100px;
+            font-family: Arial;
+        }
+        #test {
+            background: rgba(0,0,0,0.8);
+            padding: 50px;
+            border-radius: 20px;
+            border: 5px solid yellow;
+        }
+    </style>
+</head>
+<body>
+    <div id="test">
+        <h1>✅ テスト成功！</h1>
+        <p>このページが見えていればサーバーは動いています</p>
+        <p id="time"></p>
+    </div>
+    <script>
+        setInterval(() => {
+            document.getElementById('time').textContent = new Date().toLocaleTimeString();
+        }, 1000);
+    </script>
+</body>
+</html>
