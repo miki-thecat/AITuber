@@ -1,6 +1,7 @@
 """E2E test for text input mode."""
+
 import pytest
-import asyncio
+
 from apps.brain.main import BrainOrchestrator
 
 
@@ -9,7 +10,7 @@ from apps.brain.main import BrainOrchestrator
 async def test_text_mode_e2e():
     """Test complete text mode flow."""
     orch = BrainOrchestrator()
-    
+
     # Test with dummy providers (no overlay connection needed)
     try:
         await orch.process_text("こんにちは")

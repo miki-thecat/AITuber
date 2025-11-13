@@ -1,9 +1,14 @@
 """Unit tests for utils."""
-import numpy as np
 from pathlib import Path
+
+import numpy as np
+
 from apps.brain.utils import (
-    generate_silent_wav, read_wav_data, calculate_rms, 
-    audio_to_mouth_values, cleanup_temp_file
+    audio_to_mouth_values,
+    calculate_rms,
+    cleanup_temp_file,
+    generate_silent_wav,
+    read_wav_data,
 )
 
 

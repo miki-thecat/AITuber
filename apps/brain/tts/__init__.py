@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 
 class TTSProvider(ABC):
     """Abstract base class for TTS providers."""
-    
+
     @abstractmethod
     def synthesize(self, text: str) -> str:
         """Synthesize text to speech and return WAV file path."""
@@ -13,7 +13,7 @@ class TTSProvider(ABC):
 
 class DummyTTS(TTSProvider):
     """Dummy TTS that generates silent audio."""
-    
+
     def synthesize(self, text: str) -> str:
         from apps.brain.utils import generate_silent_wav
         return generate_silent_wav(duration=1.0)
@@ -46,11 +46,11 @@ def _try_api_providers() -> TTSProvider:
         return VoicevoxTTS()
     except Exception:
         pass
-    
+
     try:
         from apps.brain.tts.openai_tts import OpenAITTS
         return OpenAITTS()
     except Exception:
         pass
-    
+
     return None

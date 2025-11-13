@@ -1,5 +1,6 @@
 """Integration test for Brain orchestrator."""
 import pytest
+
 from apps.brain.main import BrainOrchestrator
 
 

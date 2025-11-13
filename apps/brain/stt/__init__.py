@@ -1,11 +1,12 @@
 """STT provider interface and implementations."""
 from abc import ABC, abstractmethod
+
 import numpy as np
 
 
 class STTProvider(ABC):
     """Abstract base class for STT providers."""
-    
+
     @abstractmethod
     def transcribe(self, audio_data: np.ndarray, sample_rate: int = 16000) -> str:
         """Transcribe audio data to text."""
@@ -14,7 +15,7 @@ class STTProvider(ABC):
 
 class DummySTT(STTProvider):
     """Dummy STT for testing."""
-    
+
     def transcribe(self, audio_data: np.ndarray, sample_rate: int = 16000) -> str:
         return "（テスト音声入力）こんにちは"
 

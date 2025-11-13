@@ -1,5 +1,6 @@
 """Unit tests for config loader."""
 import os
+
 from apps.brain import config
 
 

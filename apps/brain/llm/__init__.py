@@ -5,7 +5,7 @@ from typing import Optional
 
 class LLMProvider(ABC):
     """Abstract base class for LLM providers."""
-    
+
     @abstractmethod
     def generate(self, prompt: str, system_prompt: Optional[str] = None) -> str:
         """Generate text response from prompt."""
@@ -14,7 +14,7 @@ class LLMProvider(ABC):
 
 class DummyLLM(LLMProvider):
     """Dummy LLM that echoes input for testing."""
-    
+
     def generate(self, prompt: str, system_prompt: Optional[str] = None) -> str:
         return f"（テスト応答）{prompt}"
 

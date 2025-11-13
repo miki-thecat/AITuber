@@ -1,5 +1,6 @@
 """Unit tests for STT providers."""
 import numpy as np
+
 from apps.brain.stt import DummySTT, get_stt_provider
 
 

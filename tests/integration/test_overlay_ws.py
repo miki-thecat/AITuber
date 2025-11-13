@@ -1,11 +1,11 @@
 """Integration test for Overlay WebSocket."""
-import asyncio
 import json
-import pytest
-import websockets
-from multiprocessing import Process
 import time
+from multiprocessing import Process
+
+import pytest
 import uvicorn
+import websockets
 
 
 def run_overlay_server():
@@ -32,11 +32,11 @@ async def test_websocket_connection(overlay_server):
         async with websockets.connect("ws://127.0.0.1:15173/ws") as ws:
             # Connection successful
             assert ws.open
-            
+
             # Send test message
             test_msg = {"type": "utter_start", "text": "test", "subtitle": "test"}
             await ws.send(json.dumps(test_msg))
-            
+
             # Close gracefully
             await ws.close()
     except Exception as e:

@@ -1,7 +1,8 @@
 """Performance test for latency measurement."""
-import pytest
-import asyncio
 import time
+
+import pytest
+
 from apps.brain.main import BrainOrchestrator
 
 
@@ -10,13 +11,13 @@ from apps.brain.main import BrainOrchestrator
 async def test_response_latency():
     """Measure response latency."""
     orch = BrainOrchestrator()
-    
+
     start_time = time.time()
-    
+
     try:
         await orch.process_text("テスト")
         elapsed = time.time() - start_time
-        
+
         # Should complete within reasonable time (dummy providers are fast)
         assert elapsed < 10.0, f"Response took too long: {elapsed}s"
     except Exception as e:

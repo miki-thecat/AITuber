@@ -4,7 +4,7 @@ Loads environment variables from .env file with fallback defaults.
 """
 import os
 from pathlib import Path
-from typing import Optional
+
 from dotenv import load_dotenv
 
 # Load .env file
